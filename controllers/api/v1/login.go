@@ -1,9 +1,11 @@
-package api
+package v1
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/controllers/admin"
+	"learn-gin/middlewares"
+	"time"
 )
 
 type LoginForm struct {
@@ -25,11 +27,18 @@ func (con LoginController) Login(c *gin.Context) {
 	//fmt.Println("username:" + form.Username)
 	//fmt.Println("password:" + form.Password)
 
-	form := make(map[string]interface{})
+	form := make(map[string]string)
 	err := c.BindJSON(&form)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(form["username"])
 	fmt.Println(form["password"])
+	now := time.Now()
+	expireTime := now.Add(time.Hour)
+	token, err := middlewares.GenerateToken(form["username"], expireTime)
+	if err != nil {
+		fmt.Println("GenerateToken error")
+	}
+	fmt.Println("token:", token)
 }

@@ -1,8 +1,8 @@
-package apis
+package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn-gin/controllers/api"
+	"learn-gin/controllers/api/v1"
 	"net/http"
 )
 
@@ -14,14 +14,14 @@ type UserInfo struct {
 func UserRoutersInit(group *gin.RouterGroup) {
 	userRouter := group.Group("/users")
 	{
-		userRouter.GET("", api.UserController{}.List)
+		userRouter.GET("", v1.UserController{}.List)
 
 		userRouter.GET("/:id", func(context *gin.Context) {
 			id := context.Param("id")
 			context.String(http.StatusOK, id)
 		})
 
-		userRouter.POST("/add", api.UserController{}.Add)
-		userRouter.POST("/edit", api.UserController{}.Edit)
+		userRouter.POST("/add", v1.UserController{}.Add)
+		userRouter.POST("/edit", v1.UserController{}.Edit)
 	}
 }
