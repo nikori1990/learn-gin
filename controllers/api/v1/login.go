@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/controllers/admin"
 	"learn-gin/middlewares"
+	"net/http"
 	"time"
 )
 
@@ -41,4 +42,8 @@ func (con LoginController) Login(c *gin.Context) {
 		fmt.Println("GenerateToken error")
 	}
 	fmt.Println("token:", token)
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": token,
+	})
 }

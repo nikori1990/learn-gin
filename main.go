@@ -16,6 +16,7 @@ func main() {
 	}
 
 	fmt.Println("name", viper.Get("name"))
+	//fmt.Println("ignoreUris", viper.Get("security.ignoreUris"))
 
 	router := routers.SetUpRouters()
 	routerErr := router.Run(":8000")

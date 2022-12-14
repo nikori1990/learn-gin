@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/spf13/viper"
+	"gorm.io/gorm/utils"
 	"net/http"
 	"time"
 )
@@ -30,8 +32,13 @@ func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		uri := c.Request.RequestURI
 		fmt.Println("requestUri=", uri)
-		if uri == "/api/v1/login" {
+
+		ignoreUris := viper.GetStringSlice("security.ignoreUris")
+		fmt.Println("ignoreUris=", ignoreUris)
+
+		if utils.Contains(ignoreUris, uri) {
 			c.Next()
+			return
 		}
 
 		// 获取请求头中 token，实际是一个完整被签名过的 token；a complete, signed token
@@ -71,11 +78,13 @@ type AuthClaims struct { // token里面添加用户信息，验证token后可能
 	Permissions []string `json:"permissions"`
 }
 
-var secretKey = []byte("some string")
+//var secretKey = []byte("some string")
 
 // ParseToken 解析请求头中的 token string，转换成被解析后的 jwt.Token
 func ParseToken(tokenStr string) (*jwt.Token, error) {
 	// 解析 token string 拿到 token jwt.Token
+	secretKey := []byte(viper.GetString("security.jwt.secretKey"))
+	fmt.Println("secretKey:", secretKey)
 	return jwt.ParseWithClaims(tokenStr, &AuthClaims{}, func(tk *jwt.Token) (interface{}, error) {
 		return secretKey, nil
 	})
@@ -83,6 +92,7 @@ func ParseToken(tokenStr string) (*jwt.Token, error) {
 
 // GenerateToken 一般在登录之后使用来生成 token 能够返回给前端
 func GenerateToken(userId string, expireTime time.Time) (string, error) {
+	secretKey := []byte(viper.GetString("security.jwt.secretKey"))
 	// 创建一个 claim
 	claim := AuthClaims{
 		UserId: userId,
