@@ -49,8 +49,12 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
+		tokenRune := []rune(tokenStr)
+		//fmt.Println("tokenRune", string(tokenRune[7:]))
+		//fmt.Println("tokenRune", string(tokenRune[:7]))
+
 		// 解析拿到完整有效的 token，里头包含解析后的 3 segment
-		token, err := ParseToken(tokenStr)
+		token, err := ParseToken(string(tokenRune[7:]))
 		if err != nil {
 			c.JSON(http.StatusForbidden, "Invalid token! You don't have permission!")
 			c.Abort()
@@ -63,6 +67,8 @@ func JWTAuth() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
+		fmt.Println("userId:", claims.UserId)
 
 		// 将 claims 中的用户信息存储在 context 中
 		c.Set("userId", claims.UserId)
