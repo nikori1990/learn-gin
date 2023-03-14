@@ -9,6 +9,6 @@ security:
     - "/api/v1/register"
 
 mysql:
-  dsn: ""
   username: "root"
   password: "root123456"
+  database: "gin"
