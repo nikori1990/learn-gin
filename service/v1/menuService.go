@@ -6,17 +6,17 @@ import (
 	"learn-gin/models/api"
 )
 
-type MenuController struct {
+type MenuService struct {
 }
 
-func (con MenuController) Get(c *gin.Context) {
+func (s MenuService) Get(c *gin.Context) {
 	id := c.Param("id")
 	var menu *models.Menu
 	models.DB.Where("id=?", id).First(&menu)
 	api.Success(c, menu)
 }
 
-func (con MenuController) List(c *gin.Context) {
+func (s MenuService) List(c *gin.Context) {
 	var menus []*models.Menu
 	models.DB.Find(&menus)
 	result := recursiveNode(menus, "0")

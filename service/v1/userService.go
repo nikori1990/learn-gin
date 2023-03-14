@@ -1,4 +1,4 @@
-package admin
+package v1
 
 import (
 	"fmt"
@@ -7,10 +7,10 @@ import (
 	"net/http"
 )
 
-type UserController struct {
+type UserService struct {
 }
 
-func (con UserController) Index(c *gin.Context) {
+func (s UserService) Index(c *gin.Context) {
 	//c.String(http.StatusOK, "用户列表")
 	username := c.Query("username")
 	age := c.Query("age")
@@ -23,7 +23,7 @@ func (con UserController) Index(c *gin.Context) {
 	})
 }
 
-func (con UserController) Add(c *gin.Context) {
+func (s UserService) Add(c *gin.Context) {
 	username, _ := c.Get("username")
 	fmt.Println(username)
 
@@ -43,11 +43,11 @@ func (con UserController) Add(c *gin.Context) {
 	}
 }
 
-func (con UserController) Edit(c *gin.Context) {
+func (s UserService) Edit(c *gin.Context) {
 	c.String(http.StatusOK, "修改用户")
 }
 
-func (con UserController) List(c *gin.Context) {
+func (s UserService) List(c *gin.Context) {
 	var users []models.User
 	models.DB.Find(&users)
 	c.JSON(http.StatusOK, gin.H{

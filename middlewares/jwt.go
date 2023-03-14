@@ -10,21 +10,10 @@ import (
 	"time"
 )
 
-func InitMiddleware(c *gin.Context) {
-	// 判断用户是否登陆
-	fmt.Println(time.Now())
-
-	fmt.Println(c.Request.URL)
-
-	c.Set("username", "哈哈")
-
-	// 定义一个goroutine 统计日志
-
-	cCp := c.Copy()
-	go func() {
-		time.Sleep(5 * time.Second)
-		fmt.Println("Done! in path " + cCp.Request.URL.Path)
-	}()
+type AuthClaims struct { // token里面添加用户信息，验证token后可能会用到用户信息
+	jwt.RegisteredClaims
+	UserId      string   `json:"user_id"`
+	Permissions []string `json:"permissions"`
 }
 
 // JWTAuth 鉴权中间件
@@ -77,14 +66,6 @@ func JWTAuth() gin.HandlerFunc {
 		c.Next()
 	}
 }
-
-type AuthClaims struct { // token里面添加用户信息，验证token后可能会用到用户信息
-	jwt.RegisteredClaims
-	UserId      string   `json:"user_id"`
-	Permissions []string `json:"permissions"`
-}
-
-//var secretKey = []byte("some string")
 
 // ParseToken 解析请求头中的 token string，转换成被解析后的 jwt.Token
 func ParseToken(tokenStr string) (*jwt.Token, error) {
