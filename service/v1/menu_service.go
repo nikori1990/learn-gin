@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"learn-gin/global"
 	"learn-gin/models"
 	"learn-gin/models/api"
 )
@@ -12,13 +13,13 @@ type MenuService struct {
 func (s MenuService) Get(c *gin.Context) {
 	id := c.Param("id")
 	var menu *models.Menu
-	models.DB.Where("id=?", id).First(&menu)
+	global.DB.Where("id=?", id).First(&menu)
 	api.Success(c, menu)
 }
 
 func (s MenuService) List(c *gin.Context) {
 	var menus []*models.Menu
-	models.DB.Find(&menus)
+	global.DB.Find(&menus)
 	result := recursiveNode(menus, "0")
 	api.Success(c, result)
 }

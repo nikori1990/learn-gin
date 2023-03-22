@@ -3,6 +3,7 @@ module learn-gin
 go 1.18
 
 require (
+	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/spf13/viper v1.14.0
@@ -11,7 +12,6 @@ require (
 )
 
 require (
-	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect

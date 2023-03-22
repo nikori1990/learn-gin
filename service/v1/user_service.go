@@ -3,6 +3,7 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"learn-gin/global"
 	"learn-gin/models"
 	"net/http"
 )
@@ -32,7 +33,7 @@ func (s UserService) Add(c *gin.Context) {
 		Age:      22,
 	}
 
-	models.DB.Create(&user)
+	global.DB.Create(&user)
 	fmt.Println(user)
 
 	v, ok := username.(string)
@@ -49,7 +50,7 @@ func (s UserService) Edit(c *gin.Context) {
 
 func (s UserService) List(c *gin.Context) {
 	var users []models.User
-	models.DB.Find(&users)
+	global.DB.Find(&users)
 	c.JSON(http.StatusOK, gin.H{
 		"result": users,
 	})

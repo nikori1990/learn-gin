@@ -15,6 +15,6 @@ func (m *Mysql) Default() {
 	m.Config = "charset=utf8mb4&parseTime=True&loc=Local"
 }
 
-func (m *Mysql) Dns() string {
+func (m *Mysql) Dsn() string {
 	return m.Username + ":" + m.Password + "@tcp(" + m.Host + ":" + m.Port + ")/" + m.Database + "?" + m.Config
 }

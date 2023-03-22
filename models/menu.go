@@ -1,12 +1,18 @@
 package models
 
+import (
+	"time"
+)
+
 type Menu struct {
-	Id       string  `json:"id"`
-	Name     string  `json:"name"`
-	Path     string  `json:"path"`
-	Icon     string  `json:"icon"`
-	Pid      string  `json:"pid"`
-	Children []*Menu `json:"children" gorm:"-"`
+	Id        string  `json:"id"`
+	Name      string  `json:"name"`
+	Path      string  `json:"path"` // /dashboard /system/users
+	Icon      string  `json:"icon"`
+	Pid       string  `json:"pid"`
+	Children  []*Menu `json:"children" gorm:"-"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // TableName 表示配置操作数据库的表名

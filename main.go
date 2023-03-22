@@ -1,17 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"learn-gin/core"
-	"learn-gin/global"
-	"learn-gin/routers"
+	"learn-gin/router"
 )
 
 func main() {
 	core.Viper()
-	fmt.Println(global.CONFIG.Mysql.Dns())
+	core.Db()
 
-	router := routers.SetUpRouters()
+	router := router.SetUpRouters()
 	routerErr := router.Run(":8000")
 	if routerErr != nil {
 		return

@@ -1,9 +1,9 @@
-package routers
+package router
 
 import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/middlewares"
-	v1 "learn-gin/routers/v1"
+	v1 "learn-gin/router/v1"
 )
 
 func SetUpRouters() *gin.Engine {
