@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/spf13/viper"
 	"gorm.io/gorm/utils"
+	"learn-gin/global"
 	"net/http"
 	"time"
 )
@@ -22,7 +22,7 @@ func JWTAuth() gin.HandlerFunc {
 		uri := c.Request.RequestURI
 		fmt.Println("requestUri=", uri)
 
-		ignoreUris := viper.GetStringSlice("security.ignoreUris")
+		ignoreUris := global.CONFIG.Security.IgnoreUris
 		fmt.Println("ignoreUris=", ignoreUris)
 
 		if utils.Contains(ignoreUris, uri) {
@@ -70,7 +70,7 @@ func JWTAuth() gin.HandlerFunc {
 // ParseToken 解析请求头中的 token string，转换成被解析后的 jwt.Token
 func ParseToken(tokenStr string) (*jwt.Token, error) {
 	// 解析 token string 拿到 token jwt.Token
-	secretKey := []byte(viper.GetString("security.jwt.secretKey"))
+	secretKey := []byte(global.CONFIG.Security.JWT.SecretKey)
 	fmt.Println("secretKey:", secretKey)
 	return jwt.ParseWithClaims(tokenStr, &AuthClaims{}, func(tk *jwt.Token) (interface{}, error) {
 		return secretKey, nil
@@ -79,7 +79,7 @@ func ParseToken(tokenStr string) (*jwt.Token, error) {
 
 // GenerateToken 一般在登录之后使用来生成 token 能够返回给前端
 func GenerateToken(userId string, expireTime time.Time) (string, error) {
-	secretKey := []byte(viper.GetString("security.jwt.secretKey"))
+	secretKey := []byte(global.CONFIG.Security.JWT.SecretKey)
 	// 创建一个 claim
 	claim := AuthClaims{
 		UserId: userId,

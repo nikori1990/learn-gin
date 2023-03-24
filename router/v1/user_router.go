@@ -11,7 +11,10 @@ type UserInfo struct {
 	Password string `json:"password" form:"password"`
 }
 
-func UserRoutersInit(group *gin.RouterGroup) {
+type UserRouter struct {
+}
+
+func (router *UserRouter) Init(group *gin.RouterGroup) {
 	userRouter := group.Group("/users")
 	{
 		userRouter.GET("", v1.UserService{}.List)

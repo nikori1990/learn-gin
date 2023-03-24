@@ -1,5 +1,6 @@
 package config
 
 type Config struct {
-	Mysql Mysql `mapstructure:"mysql"`
+	Mysql    Mysql `mapstructure:"mysql"`
+	Security Security
 }

@@ -5,7 +5,10 @@ import (
 	"learn-gin/service/v1"
 )
 
-func MenuRoutersInit(group *gin.RouterGroup) {
+type MenuRouter struct {
+}
+
+func (router *MenuRouter) Init(group *gin.RouterGroup) {
 	menuRouter := group.Group("/menus")
 	{
 		menuRouter.GET("", v1.MenuService{}.List)

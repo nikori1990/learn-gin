@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/global"
 	"learn-gin/models"
@@ -21,6 +22,7 @@ func (s MenuService) List(c *gin.Context) {
 	var menus []*models.Menu
 	global.DB.Find(&menus)
 	result := recursiveNode(menus, "0")
+	fmt.Println(result)
 	api.Success(c, result)
 }
 

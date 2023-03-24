@@ -5,7 +5,10 @@ import (
 	"learn-gin/service/v1"
 )
 
-func LoginRoutersInit(group *gin.RouterGroup) {
+type LoginRouter struct {
+}
+
+func (router *LoginRouter) Init(group *gin.RouterGroup) {
 	loginRouter := group.Group("/login")
 	{
 		loginRouter.POST("", v1.LoginService{}.Login)

@@ -11,10 +11,7 @@ func SetUpRouters() *gin.Engine {
 
 	router.Use(middlewares.JWTAuth())
 
-	apiRouter := router.Group("/api/v1")
-	v1.LoginRoutersInit(apiRouter)
-	v1.MenuRoutersInit(apiRouter)
-	v1.UserRoutersInit(apiRouter)
+	v1.SetUpV1Router(router)
 
 	return router
 }
