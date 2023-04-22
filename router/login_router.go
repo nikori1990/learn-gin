@@ -1,14 +1,14 @@
-package v1
+package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn-gin/service/v1"
+	"learn-gin/service"
 )
 
 type LoginRouter struct {
 }
 
-var loginService = new(v1.LoginService)
+var loginService = new(service.LoginService)
 
 func (router *LoginRouter) Init(group *gin.RouterGroup) {
 	loginRouter := group.Group("/login")

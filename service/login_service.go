@@ -1,9 +1,10 @@
-package v1
+package service
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/middlewares"
+	"learn-gin/models/api"
 	"time"
 )
 
@@ -30,5 +31,5 @@ func (s LoginService) Login(c *gin.Context) {
 	}
 	fmt.Println("token:", token)
 
-	Success(c, token)
+	api.Success(c, token)
 }

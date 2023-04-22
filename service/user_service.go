@@ -1,10 +1,11 @@
-package v1
+package service
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/global"
-	"learn-gin/models"
+	"learn-gin/models/api"
+	"learn-gin/models/system"
 	"net/http"
 )
 
@@ -17,7 +18,7 @@ func (s UserService) Index(c *gin.Context) {
 	age := c.Query("age")
 	page := c.DefaultQuery("page", "1")
 
-	Success(c, gin.H{
+	api.Success(c, gin.H{
 		"username": username,
 		"age":      age,
 		"page":     page,
@@ -28,7 +29,7 @@ func (s UserService) Add(c *gin.Context) {
 	username, _ := c.Get("username")
 	fmt.Println(username)
 
-	user := &models.User{
+	user := &system.User{
 		Username: "niko",
 		Age:      22,
 	}
@@ -49,9 +50,7 @@ func (s UserService) Edit(c *gin.Context) {
 }
 
 func (s UserService) List(c *gin.Context) {
-	var users []models.User
+	var users []system.User
 	global.DB.Find(&users)
-	Success(c, gin.H{
-		"result": users,
-	})
+	api.Success(c, users)
 }

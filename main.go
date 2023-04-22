@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"learn-gin/core"
 	"learn-gin/global"
-	"learn-gin/router"
+	"learn-gin/initialize"
 )
 
 func main() {
@@ -17,7 +17,8 @@ func main() {
 
 	fmt.Printf("config %v", global.CONFIG)
 
-	r := router.SetUpRouters()
+	r := initialize.InitRouters()
+
 	routerErr := r.Run(fmt.Sprintf(":%v", port))
 	if routerErr != nil {
 		return

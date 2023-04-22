@@ -1,10 +1,11 @@
-package v1
+package service
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/dao"
 	"learn-gin/global"
+	"learn-gin/models/api"
 	"learn-gin/models/system"
 )
 
@@ -16,19 +17,19 @@ var menuDao = new(dao.MenuDao)
 func (s MenuService) Get(c *gin.Context) {
 	id := c.Param("id")
 	menu := menuDao.GetById(id)
-	Success(c, menu)
+	api.Success(c, menu)
 }
 
 func (s MenuService) List(c *gin.Context) {
-	var menus []*system.SysMenu
+	var menus []*system.Menu
 	global.DB.Find(&menus)
 	result := recursiveNode(menus, "0")
 	fmt.Println(result)
-	Success(c, result)
+	api.Success(c, result)
 }
 
-func recursiveNode(list []*system.SysMenu, pId string) []*system.SysMenu {
-	res := make([]*system.SysMenu, 0)
+func recursiveNode(list []*system.Menu, pId string) []*system.Menu {
+	res := make([]*system.Menu, 0)
 
 	for _, item := range list {
 		if item.Pid == pId {

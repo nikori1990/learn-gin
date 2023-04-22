@@ -1,14 +1,14 @@
-package v1
+package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn-gin/service/v1"
+	"learn-gin/service"
 )
 
 type MenuRouter struct {
 }
 
-var menuService = new(v1.MenuService)
+var menuService = new(service.MenuService)
 
 func (router *MenuRouter) Init(group *gin.RouterGroup) {
 	menuRouter := group.Group("/menus")
