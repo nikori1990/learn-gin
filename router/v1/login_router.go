@@ -8,9 +8,11 @@ import (
 type LoginRouter struct {
 }
 
+var loginService = new(v1.LoginService)
+
 func (router *LoginRouter) Init(group *gin.RouterGroup) {
 	loginRouter := group.Group("/login")
 	{
-		loginRouter.POST("", v1.LoginService{}.Login)
+		loginRouter.POST("", loginService.Login)
 	}
 }

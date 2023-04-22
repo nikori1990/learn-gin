@@ -11,7 +11,8 @@ func SetUpRouters() *gin.Engine {
 
 	router.Use(middlewares.JWTAuth())
 
-	v1.SetUpV1Router(router)
+	v1Router := v1.Router{}
+	v1Router.Init(router)
 
 	return router
 }

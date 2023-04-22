@@ -1,6 +1,11 @@
 package config
 
 type Config struct {
-	Mysql    Mysql `mapstructure:"mysql"`
+	Server   Server
+	Mysql    Mysql
 	Security Security
+}
+
+func (config *Config) Init() {
+	config.Mysql.Default()
 }

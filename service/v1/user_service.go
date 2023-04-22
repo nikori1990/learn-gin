@@ -17,7 +17,7 @@ func (s UserService) Index(c *gin.Context) {
 	age := c.Query("age")
 	page := c.DefaultQuery("page", "1")
 
-	c.JSON(http.StatusOK, gin.H{
+	Success(c, gin.H{
 		"username": username,
 		"age":      age,
 		"page":     page,
@@ -51,7 +51,7 @@ func (s UserService) Edit(c *gin.Context) {
 func (s UserService) List(c *gin.Context) {
 	var users []models.User
 	global.DB.Find(&users)
-	c.JSON(http.StatusOK, gin.H{
+	Success(c, gin.H{
 		"result": users,
 	})
 }

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/middlewares"
-	"learn-gin/models/api"
 	"time"
 )
 
@@ -23,8 +22,6 @@ func (s LoginService) Login(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(form["username"])
-	fmt.Println(form["password"])
 	now := time.Now()
 	expireTime := now.Add(time.Hour)
 	token, err := middlewares.GenerateToken(form["username"], expireTime)
@@ -33,5 +30,5 @@ func (s LoginService) Login(c *gin.Context) {
 	}
 	fmt.Println("token:", token)
 
-	api.Success(c, token)
+	Success(c, token)
 }

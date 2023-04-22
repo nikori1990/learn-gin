@@ -14,17 +14,19 @@ type UserInfo struct {
 type UserRouter struct {
 }
 
+var userService = new(v1.UserService)
+
 func (router *UserRouter) Init(group *gin.RouterGroup) {
 	userRouter := group.Group("/users")
 	{
-		userRouter.GET("", v1.UserService{}.List)
+		userRouter.GET("", userService.List)
 
 		userRouter.GET("/:id", func(context *gin.Context) {
 			id := context.Param("id")
 			context.String(http.StatusOK, id)
 		})
 
-		userRouter.POST("/add", v1.UserService{}.Add)
-		userRouter.POST("/edit", v1.UserService{}.Edit)
+		userRouter.POST("/add", userService.Add)
+		userRouter.POST("/edit", userService.Edit)
 	}
 }

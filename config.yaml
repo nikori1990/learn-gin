@@ -1,5 +1,7 @@
-name:
-  niko
+env: test
+
+server:
+  port: 8888
 
 security:
   jwt:

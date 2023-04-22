@@ -8,10 +8,12 @@ import (
 type MenuRouter struct {
 }
 
+var menuService = new(v1.MenuService)
+
 func (router *MenuRouter) Init(group *gin.RouterGroup) {
 	menuRouter := group.Group("/menus")
 	{
-		menuRouter.GET("", v1.MenuService{}.List)
-		menuRouter.GET("/:id", v1.MenuService{}.Get)
+		menuRouter.GET("", menuService.List)
+		menuRouter.GET("/:id", menuService.Get)
 	}
 }
