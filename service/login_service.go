@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/middlewares"
-	"learn-gin/models/api"
+	"learn-gin/model/api"
 	"time"
 )
 

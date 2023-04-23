@@ -1,56 +1,57 @@
 package service
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"learn-gin/global"
-	"learn-gin/models/api"
-	"learn-gin/models/system"
-	"net/http"
+	"learn-gin/model/api"
+	"learn-gin/model/system"
+	"learn-gin/repository"
+	"strconv"
 )
 
 type UserService struct {
 }
 
-func (s UserService) Index(c *gin.Context) {
-	//c.String(http.StatusOK, "用户列表")
-	username := c.Query("username")
-	age := c.Query("age")
-	page := c.DefaultQuery("page", "1")
+var userRepository = new(repository.UserRepository)
 
-	api.Success(c, gin.H{
-		"username": username,
-		"age":      age,
-		"page":     page,
-	})
-}
-
-func (s UserService) Add(c *gin.Context) {
-	username, _ := c.Get("username")
-	fmt.Println(username)
-
-	user := &system.User{
-		Username: "niko",
-		Age:      22,
+func (UserService) Create(c *gin.Context) {
+	var user system.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		panic(err)
 	}
+	createId := userRepository.Create(&user)
+	api.Success(c, createId)
+}
 
-	global.DB.Create(&user)
-	fmt.Println(user)
-
-	v, ok := username.(string)
-	if ok {
-		c.String(http.StatusOK, "添加用户 --- "+v)
-	} else {
-		c.String(http.StatusOK, "添加用户")
+func (UserService) Update(c *gin.Context) {
+	var user system.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		panic(err)
 	}
+	updateId := userRepository.Update(&user)
+	api.Success(c, updateId)
 }
 
-func (s UserService) Edit(c *gin.Context) {
-	c.String(http.StatusOK, "修改用户")
+func (UserService) Delete(c *gin.Context) {
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		panic(err)
+	}
+	deleteId := userRepository.Delete(uint(id))
+	api.Success(c, deleteId)
 }
 
-func (s UserService) List(c *gin.Context) {
-	var users []system.User
-	global.DB.Find(&users)
-	api.Success(c, users)
+func (UserService) GetById(c *gin.Context) {
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		panic(err)
+	}
+	user := userRepository.GetById(uint(id))
+	api.Success(c, user)
+}
+
+func (UserService) List(c *gin.Context) {
+	list := userRepository.List()
+	api.Success(c, list)
 }

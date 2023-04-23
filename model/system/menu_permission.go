@@ -1,9 +1,11 @@
-package models
+package system
 
-import "gorm.io/gorm"
+import (
+	"learn-gin/model/base"
+)
 
 type MenuPermission struct {
-	gorm.Model
+	base.Model
 	MenuId       string
 	PermissionId string
 }

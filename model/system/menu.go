@@ -1,15 +1,14 @@
 package system
 
+import (
+	"learn-gin/model/base"
+)
+
 type Menu struct {
-	Id       string  `json:"id"`
+	base.Model
 	Name     string  `json:"name"`
 	Path     string  `json:"path"` // /dashboard /system/users
 	Icon     string  `json:"icon"`
-	Pid      string  `json:"pid"`
+	ParentId uint    `json:"parentId"`
 	Children []*Menu `json:"children" gorm:"-"`
-}
-
-// TableName 表示配置操作数据库的表名
-func (Menu) TableName() string {
-	return "menu"
 }

@@ -1,9 +1,11 @@
-package models
+package system
 
-import "gorm.io/gorm"
+import (
+	"learn-gin/model/base"
+)
 
 type RolePermission struct {
-	gorm.Model
+	base.Model
 	RoleId       string
 	PermissionId string
 }

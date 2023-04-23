@@ -1,9 +1,11 @@
-package models
+package system
 
-import "gorm.io/gorm"
+import (
+	"learn-gin/model/base"
+)
 
 type Permission struct {
-	gorm.Model
+	base.Model
 	Path   string // url /api/users  /api/users/:id
 	Method string // GET DELETE
 }

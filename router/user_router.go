@@ -3,7 +3,6 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/service"
-	"net/http"
 )
 
 type UserInfo struct {
@@ -20,13 +19,9 @@ func (router *UserRouter) Init(group *gin.RouterGroup) {
 	userRouter := group.Group("/users")
 	{
 		userRouter.GET("", userService.List)
-
-		userRouter.GET("/:id", func(context *gin.Context) {
-			id := context.Param("id")
-			context.String(http.StatusOK, id)
-		})
-
-		userRouter.POST("/add", userService.Add)
-		userRouter.POST("/edit", userService.Edit)
+		userRouter.GET("/:id", userService.GetById)
+		userRouter.POST("", userService.Create)
+		userRouter.PUT("", userService.Update)
+		userRouter.DELETE("", userService.Delete)
 	}
 }

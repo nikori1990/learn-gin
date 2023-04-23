@@ -1,2 +1,5 @@
 server:
   port: 8889
+
+mysql:
+  database: "by_admin"

@@ -9,17 +9,21 @@ import (
 var loginRouter = new(router.LoginRouter)
 var menuRouter = new(router.MenuRouter)
 var userRouter = new(router.UserRouter)
+var deptRouter = new(router.DeptRouter)
+var roleRouter = new(router.RoleRouter)
 
 func InitRouters() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middlewares.JWTAuth())
 
-	group := r.Group("/api")
+	apiRouter := r.Group("/api")
 	{
-		loginRouter.Init(group)
-		userRouter.Init(group)
-		menuRouter.Init(group)
+		loginRouter.Init(apiRouter)
+		userRouter.Init(apiRouter)
+		menuRouter.Init(apiRouter)
+		deptRouter.Init(apiRouter)
+		roleRouter.Init(apiRouter)
 	}
 
 	return r
