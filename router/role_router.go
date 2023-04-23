@@ -2,13 +2,10 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn-gin/service"
 )
 
 type RoleRouter struct {
 }
-
-var roleService = new(service.RoleService)
 
 func (RoleRouter) Init(group *gin.RouterGroup) {
 	roleRouter := group.Group("/roles")
@@ -18,5 +15,6 @@ func (RoleRouter) Init(group *gin.RouterGroup) {
 		roleRouter.POST("", roleService.Create)
 		roleRouter.PUT("", roleService.Update)
 		roleRouter.DELETE("/:id", roleService.Delete)
+		roleRouter.GET("/:id/permissions", roleService.ListPermissions)
 	}
 }

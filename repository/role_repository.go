@@ -29,17 +29,25 @@ func (RoleRepository) Delete(id uint) uint {
 	return id
 }
 
-func (RoleRepository) GetById(id uint) system.Role {
-	var role system.Role
+func (RoleRepository) GetById(id uint) *system.Role {
+	var role *system.Role
 	if err := global.DB.First(&role, id).Error; err != nil {
 		panic(err)
 	}
 	return role
 }
 
-func (RoleRepository) List() []system.Role {
-	var roles []system.Role
+func (RoleRepository) List() []*system.Role {
+	var roles []*system.Role
 	if err := global.DB.Find(&roles).Error; err != nil {
+		panic(err)
+	}
+	return roles
+}
+
+func (RoleRepository) ListByIds(ids []uint) []*system.Role {
+	var roles []*system.Role
+	if err := global.DB.Find(&roles, ids).Error; err != nil {
 		panic(err)
 	}
 	return roles

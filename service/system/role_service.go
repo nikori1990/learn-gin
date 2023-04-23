@@ -1,17 +1,14 @@
-package service
+package system
 
 import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
-	"learn-gin/repository"
 	"strconv"
 )
 
 type RoleService struct {
 }
-
-var roleRepository = new(repository.RoleRepository)
 
 func (RoleService) Create(c *gin.Context) {
 	var role system.Role
@@ -54,4 +51,22 @@ func (RoleService) GetById(c *gin.Context) {
 func (RoleService) List(c *gin.Context) {
 	list := roleRepository.List()
 	api.Success(c, list)
+}
+
+func (RoleService) ListPermissions(c *gin.Context) {
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		panic(err)
+	}
+	list := rolePermissionRepository.ListByRoleId(uint(id))
+
+	var permissionIds []uint
+	for _, permission := range list {
+		permissionIds = append(permissionIds, permission.PermissionId)
+	}
+
+	permissionList := permissionRepository.ListByIds(permissionIds)
+
+	api.Success(c, permissionList)
 }

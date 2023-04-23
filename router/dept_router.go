@@ -2,13 +2,10 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn-gin/service"
 )
 
 type DeptRouter struct {
 }
-
-var deptService = new(service.DeptService)
 
 func (DeptRouter) Init(group *gin.RouterGroup) {
 	deptRouter := group.Group("/depts")

@@ -29,16 +29,16 @@ func (DeptRepository) Delete(id uint) uint {
 	return id
 }
 
-func (DeptRepository) GetById(id uint) system.Dept {
-	var dept system.Dept
+func (DeptRepository) GetById(id uint) *system.Dept {
+	var dept *system.Dept
 	if err := global.DB.Limit(1).Find(&dept, id).Error; err != nil {
 		panic(err)
 	}
 	return dept
 }
 
-func (DeptRepository) List() []system.Dept {
-	var deptList []system.Dept
+func (DeptRepository) List() []*system.Dept {
+	var deptList []*system.Dept
 	if err := global.DB.Find(&deptList).Error; err != nil {
 		panic(err)
 	}

@@ -1,19 +1,16 @@
-package service
+package system
 
 import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
-	"learn-gin/repository"
 	"strconv"
 )
 
 type DeptService struct {
 }
 
-var deptRepository repository.DeptRepository
-
-func (service DeptService) Create(c *gin.Context) {
+func (DeptService) Create(c *gin.Context) {
 	var dept system.Dept
 
 	if err := c.ShouldBindJSON(&dept); err != nil {
@@ -24,7 +21,7 @@ func (service DeptService) Create(c *gin.Context) {
 	api.Success(c, deptId)
 }
 
-func (service DeptService) Update(c *gin.Context) {
+func (DeptService) Update(c *gin.Context) {
 	var dept system.Dept
 
 	if err := c.ShouldBindJSON(&dept); err != nil {
@@ -35,7 +32,7 @@ func (service DeptService) Update(c *gin.Context) {
 	api.Success(c, updateId)
 }
 
-func (service DeptService) Delete(c *gin.Context) {
+func (DeptService) Delete(c *gin.Context) {
 	param := c.Param("id")
 	id, err := strconv.Atoi(param)
 	if err != nil {
@@ -45,7 +42,7 @@ func (service DeptService) Delete(c *gin.Context) {
 	api.Success(c, deleteId)
 }
 
-func (service DeptService) GetById(c *gin.Context) {
+func (DeptService) GetById(c *gin.Context) {
 	param := c.Param("id")
 	id, err := strconv.Atoi(param)
 	if err != nil {
@@ -55,7 +52,7 @@ func (service DeptService) GetById(c *gin.Context) {
 	api.Success(c, dept)
 }
 
-func (service DeptService) List(c *gin.Context) {
+func (DeptService) List(c *gin.Context) {
 	list := deptRepository.List()
 	api.Success(c, list)
 }

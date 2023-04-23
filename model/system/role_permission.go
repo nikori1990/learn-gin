@@ -6,6 +6,6 @@ import (
 
 type RolePermission struct {
 	base.Model
-	RoleId       string
-	PermissionId string
+	RoleId       uint `json:"roleId"`
+	PermissionId uint `json:"permissionId"`
 }

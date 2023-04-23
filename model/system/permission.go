@@ -6,6 +6,6 @@ import (
 
 type Permission struct {
 	base.Model
-	Path   string // url /api/users  /api/users/:id
-	Method string // GET DELETE
+	Path   string `json:"path"`   // url /api/users  /api/users/:id
+	Method string `json:"method"` // GET DELETE
 }

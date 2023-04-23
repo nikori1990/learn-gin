@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn-gin/service"
 )
 
 type UserInfo struct {
@@ -12,8 +11,6 @@ type UserInfo struct {
 
 type UserRouter struct {
 }
-
-var userService = new(service.UserService)
 
 func (router *UserRouter) Init(group *gin.RouterGroup) {
 	userRouter := group.Group("/users")

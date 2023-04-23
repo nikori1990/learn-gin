@@ -1,4 +1,4 @@
-package service
+package system
 
 import (
 	"fmt"
@@ -6,21 +6,18 @@ import (
 	"learn-gin/global"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
-	"learn-gin/repository"
 )
 
 type MenuService struct {
 }
 
-var menuRepository = new(repository.MenuRepository)
-
-func (s MenuService) Get(c *gin.Context) {
+func (MenuService) Get(c *gin.Context) {
 	id := c.Param("id")
 	menu := menuRepository.GetById(id)
 	api.Success(c, menu)
 }
 
-func (s MenuService) List(c *gin.Context) {
+func (MenuService) List(c *gin.Context) {
 	var menus []*system.Menu
 	global.DB.Find(&menus)
 	result := recursiveNode(menus, 0)

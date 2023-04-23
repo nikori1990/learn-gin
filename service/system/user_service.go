@@ -1,17 +1,14 @@
-package service
+package system
 
 import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
-	"learn-gin/repository"
 	"strconv"
 )
 
 type UserService struct {
 }
-
-var userRepository = new(repository.UserRepository)
 
 func (UserService) Create(c *gin.Context) {
 	var user system.User
