@@ -1,4 +1,4 @@
-package repository
+package system
 
 import (
 	"learn-gin/global"
@@ -18,6 +18,14 @@ func (UserRoleRepository) Create(userRole *system.UserRole) uint {
 func (UserRoleRepository) List() []*system.UserRole {
 	var list []*system.UserRole
 	if err := global.DB.Find(&list).Error; err != nil {
+		panic(err)
+	}
+	return list
+}
+
+func (UserRoleRepository) ListByUserId(id uint) []*system.UserRole {
+	var list []*system.UserRole
+	if err := global.DB.Where("user_id = ?", id).Find(&list).Error; err != nil {
 		panic(err)
 	}
 	return list

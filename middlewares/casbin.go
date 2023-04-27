@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"learn-gin/global"
+	"learn-gin/model/api"
 	"learn-gin/utils"
 )
 
-// JWTAuth 鉴权中间件
-func JWTAuth() gin.HandlerFunc {
+func CasbinHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		uri := c.Request.RequestURI
 		fmt.Println("requestUri=", uri)
@@ -22,15 +22,22 @@ func JWTAuth() gin.HandlerFunc {
 		}
 
 		claims, _ := utils.GetClaims(c)
+		// 获取用户
+		sub := claims.Username
+		//获取请求的PATH
+		obj := c.Request.URL.Path
+		// 获取请求方法
+		act := c.Request.Method
+		//
+		domain := claims.TenantId
 
-		global.Logger.Infof("username: %s", claims.Username)
-		global.Logger.Infof("permissions: %s", claims.Permissions)
+		success, _ := global.CasbinEnforcer.Enforce(sub, domain, obj, act)
+		if !success {
+			api.Forbidden(c, "权限不足")
+			c.Abort()
+			return
+		}
 
-		// 将 claims 中的用户信息存储在 context 中
-		c.Set("username", claims.Username)
-		c.Set("permissions", claims.Permissions)
-
-		// 这里执行路由 HandlerFunc
 		c.Next()
 	}
 }

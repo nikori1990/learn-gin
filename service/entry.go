@@ -1,11 +1,8 @@
-package system
+package service
 
-import (
-	"learn-gin/repository/system"
-)
+import "learn-gin/repository/system"
 
 var (
-	tenantRepository         = new(system.TenantRepository)
 	deptRepository           = new(system.DeptRepository)
 	menuRepository           = new(system.MenuRepository)
 	permissionRepository     = new(system.PermissionRepository)

@@ -2,7 +2,9 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
+	"learn-gin/global"
 	"learn-gin/model/api"
+	"learn-gin/model/base"
 	"learn-gin/model/system"
 	"strconv"
 )
@@ -18,6 +20,7 @@ func (PermissionService) Create(c *gin.Context) {
 	}
 
 	permissionId := permissionRepository.Create(&permission)
+	global.Logger.Infof("add permission: %v success", permission)
 	api.Success(c, permissionId)
 }
 
@@ -55,4 +58,17 @@ func (PermissionService) GetById(c *gin.Context) {
 func (PermissionService) List(c *gin.Context) {
 	list := permissionRepository.List()
 	api.Success(c, list)
+}
+
+func (PermissionService) Page(c *gin.Context) {
+	var pageQuery base.PageQuery
+
+	if err := c.ShouldBindQuery(&pageQuery); err != nil {
+		panic(err)
+	}
+
+	pageQuery.SetFromLimit()
+	page := permissionRepository.Page(&pageQuery)
+
+	api.Success(c, page)
 }

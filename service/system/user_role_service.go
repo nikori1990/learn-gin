@@ -2,8 +2,10 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
+	"learn-gin/global"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
+	"strconv"
 )
 
 type UserRoleService struct {
@@ -15,6 +17,15 @@ func (UserRoleService) Create(c *gin.Context) {
 		panic(err)
 	}
 	createId := userRoleRepository.Create(&userRole)
+
+	user := userRepository.GetById(userRole.UserId)
+	role := roleRepository.GetById(userRole.RoleId)
+
+	_, err := global.CasbinEnforcer.AddRoleForUserInDomain(user.Username, role.Code, strconv.Itoa(int(user.TenantId)))
+	if err != nil {
+		panic(err)
+	}
+
 	api.Success(c, createId)
 }
 

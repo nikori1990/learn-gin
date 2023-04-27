@@ -1,7 +1,8 @@
-package repository
+package system
 
 import (
 	"learn-gin/global"
+	"learn-gin/model/base"
 	"learn-gin/model/system"
 )
 
@@ -51,4 +52,20 @@ func (PermissionRepository) ListByIds(ids []uint) []*system.Permission {
 		panic(err)
 	}
 	return list
+}
+
+func (PermissionRepository) Page(query *base.PageQuery) *base.Page {
+	var list []*system.Permission
+
+	result := global.DB.Limit(int(query.Limit)).Offset(int(query.Offset)).Find(&list)
+	if result.Error != nil {
+		panic(result.Error)
+	}
+
+	return &base.Page{
+		PageNo:   query.PageNo,
+		PageSize: query.PageSize,
+		Data:     list,
+		Total:    uint(result.RowsAffected),
+	}
 }

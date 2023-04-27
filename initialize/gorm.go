@@ -11,6 +11,7 @@ func InitDb() {
 
 	err := global.DB.AutoMigrate(
 		// 系统模块表
+		system.Tenant{},
 		system.Dept{},
 		system.Menu{},
 		system.MenuPermission{},
@@ -27,4 +28,5 @@ func InitDb() {
 	if err != nil {
 		panic(err)
 	}
+	global.Logger.Info("initialize gorm success")
 }

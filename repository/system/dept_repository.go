@@ -1,4 +1,4 @@
-package repository
+package system
 
 import (
 	"learn-gin/global"

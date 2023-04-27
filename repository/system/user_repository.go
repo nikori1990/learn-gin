@@ -1,4 +1,4 @@
-package repository
+package system
 
 import (
 	"learn-gin/global"
@@ -32,6 +32,14 @@ func (UserRepository) Delete(id uint) uint {
 func (UserRepository) GetById(id uint) *system.User {
 	var user *system.User
 	if err := global.DB.Limit(1).Find(&user, id).Error; err != nil {
+		panic(err)
+	}
+	return user
+}
+
+func (UserRepository) GetByName(username string) *system.User {
+	var user *system.User
+	if err := global.DB.Limit(1).Where("username = ?", username).First(&user).Error; err != nil {
 		panic(err)
 	}
 	return user

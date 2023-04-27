@@ -2,6 +2,7 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
+	"learn-gin/global"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
 )
@@ -15,6 +16,16 @@ func (RolePermissionService) Create(c *gin.Context) {
 		panic(err)
 	}
 	createId := rolePermissionRepository.Create(&rolePermission)
+
+	role := roleRepository.GetById(rolePermission.RoleId)
+	permission := permissionRepository.GetById(rolePermission.PermissionId)
+
+	_, err := global.CasbinEnforcer.AddPermissionForUser(role.Code, "1", permission.Path, permission.Method)
+
+	if err != nil {
+		panic(err)
+	}
+
 	api.Success(c, createId)
 }
 

@@ -15,5 +15,6 @@ func (PermissionRouter) Init(group *gin.RouterGroup) {
 		permissionRouter.POST("", permissionService.Create)
 		permissionRouter.PUT("", permissionService.Update)
 		permissionRouter.DELETE("/:id", permissionService.Delete)
+		permissionRouter.GET("/page", permissionService.Page)
 	}
 }

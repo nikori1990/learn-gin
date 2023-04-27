@@ -9,7 +9,10 @@ import (
 func main() {
 
 	initialize.InitConfig()
+	initialize.InitLogger()
 	initialize.InitDb()
+	initialize.InitCasbin()
+
 	router := initialize.InitRouters()
 
 	port := global.CONFIG.Server.Port
@@ -17,4 +20,5 @@ func main() {
 	if routerErr != nil {
 		return
 	}
+
 }

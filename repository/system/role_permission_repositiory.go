@@ -1,4 +1,4 @@
-package repository
+package system
 
 import (
 	"learn-gin/global"
@@ -30,6 +30,14 @@ func (RolePermissionRepository) List() []*system.RolePermission {
 func (RolePermissionRepository) ListByRoleId(roleId uint) []*system.RolePermission {
 	var list []*system.RolePermission
 	if err := global.DB.Find(&list).Where("role_id = ?", roleId).Error; err != nil {
+		panic(err)
+	}
+	return list
+}
+
+func (RolePermissionRepository) ListByRoleIds(ids []uint) []*system.RolePermission {
+	var list []*system.RolePermission
+	if err := global.DB.Find(&list).Where("role_id IN ?", ids).Error; err != nil {
 		panic(err)
 	}
 	return list
