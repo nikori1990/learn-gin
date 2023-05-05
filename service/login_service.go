@@ -68,3 +68,7 @@ func (s LoginService) Login(c *gin.Context) {
 		"token": token,
 	})
 }
+
+func (LoginService) Logout(c *gin.Context) {
+
+}

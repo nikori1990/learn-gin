@@ -5,16 +5,17 @@ import (
 	"learn-gin/global"
 	"learn-gin/middlewares"
 	"learn-gin/router"
+	"learn-gin/router/system"
 )
 
-var tenantRouter = new(router.TenantRouter)
-var deptRouter = new(router.DeptRouter)
-var roleRouter = new(router.RoleRouter)
-var permissionRouter = new(router.PermissionRouter)
-var userRouter = new(router.UserRouter)
-var userRoleRouter = new(router.UserRoleRouter)
-var rolePermissionRouter = new(router.RolePermissionRouter)
-var menuRouter = new(router.MenuRouter)
+var tenantRouter = new(system.TenantRouter)
+var deptRouter = new(system.DeptRouter)
+var roleRouter = new(system.RoleRouter)
+var permissionRouter = new(system.PermissionRouter)
+var userRouter = new(system.UserRouter)
+var userRoleRouter = new(system.UserRoleRouter)
+var rolePermissionRouter = new(system.RolePermissionRouter)
+var menuRouter = new(system.MenuRouter)
 
 var loginRouter = new(router.LoginRouter)
 
@@ -27,14 +28,17 @@ func InitRouters() *gin.Engine {
 
 	apiRouter := r.Group("/api")
 	{
-		tenantRouter.Init(apiRouter)
-		userRouter.Init(apiRouter)
-		menuRouter.Init(apiRouter)
-		deptRouter.Init(apiRouter)
-		roleRouter.Init(apiRouter)
-		permissionRouter.Init(apiRouter)
-		userRoleRouter.Init(apiRouter)
-		rolePermissionRouter.Init(apiRouter)
+		systemRouter := system.InitSystemRouter(apiRouter)
+		{
+			tenantRouter.Init(systemRouter)
+			userRouter.Init(systemRouter)
+			menuRouter.Init(systemRouter)
+			deptRouter.Init(systemRouter)
+			roleRouter.Init(systemRouter)
+			permissionRouter.Init(systemRouter)
+			userRoleRouter.Init(systemRouter)
+			rolePermissionRouter.Init(systemRouter)
+		}
 
 		loginRouter.Init(apiRouter)
 	}

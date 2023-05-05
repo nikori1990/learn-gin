@@ -13,6 +13,7 @@ var loginService = new(service.LoginService)
 func (router *LoginRouter) Init(group *gin.RouterGroup) {
 	loginRouter := group.Group("/login")
 	{
-		loginRouter.POST("", loginService.Login)
+		loginRouter.POST("/login", loginService.Login)
+		loginRouter.POST("/logout", loginService.Logout)
 	}
 }

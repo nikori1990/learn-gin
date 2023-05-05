@@ -1,4 +1,4 @@
-package router
+package system
 
 import (
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,8 @@ func (PermissionRouter) Init(group *gin.RouterGroup) {
 		permissionRouter.GET("/:id", permissionService.GetById)
 		permissionRouter.POST("", permissionService.Create)
 		permissionRouter.PUT("", permissionService.Update)
-		permissionRouter.DELETE("/:id", permissionService.Delete)
+		permissionRouter.DELETE("", permissionService.Delete)
 		permissionRouter.GET("/page", permissionService.Page)
+		permissionRouter.GET("/tree", permissionService.Tree)
 	}
 }

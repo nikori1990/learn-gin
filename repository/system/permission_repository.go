@@ -4,6 +4,7 @@ import (
 	"learn-gin/global"
 	"learn-gin/model/base"
 	"learn-gin/model/system"
+	"learn-gin/model/system/query"
 )
 
 type PermissionRepository struct {
@@ -17,7 +18,7 @@ func (PermissionRepository) Create(permission *system.Permission) uint {
 }
 
 func (PermissionRepository) Update(permission *system.Permission) uint {
-	if err := global.DB.Model(&system.Permission{}).Where("id = ?", permission.ID).Updates(system.Permission{Path: permission.Path, Method: permission.Method}).Error; err != nil {
+	if err := global.DB.Model(&system.Permission{}).Where("id = ?", permission.ID).Updates(permission).Error; err != nil {
 		panic(err)
 	}
 	return permission.ID
@@ -54,10 +55,22 @@ func (PermissionRepository) ListByIds(ids []uint) []*system.Permission {
 	return list
 }
 
-func (PermissionRepository) Page(query *base.PageQuery) *base.Page {
+func (PermissionRepository) Page(query *query.PermissionQuery) *base.Page {
 	var list []*system.Permission
 
-	result := global.DB.Limit(int(query.Limit)).Offset(int(query.Offset)).Find(&list)
+	queryMap := make(map[string]interface{})
+
+	if query.Name != "" {
+		queryMap["name"] = query.Name
+	}
+	if query.Path != "" {
+		queryMap["path"] = query.Path
+	}
+	if query.Type.Name() != "Unknown" {
+		queryMap["type"] = query.Type
+	}
+
+	result := global.DB.Where(queryMap).Limit(int(query.Limit)).Offset(int(query.Offset)).Find(&list)
 	if result.Error != nil {
 		panic(result.Error)
 	}

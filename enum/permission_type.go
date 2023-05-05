@@ -3,7 +3,7 @@ package enum
 type PermissionType int
 
 const (
-	PAGE PermissionType = iota
+	PAGE PermissionType = iota + 1
 	BUTTON
 )
 
@@ -11,7 +11,7 @@ func (pt PermissionType) Name() string {
 	if pt < PAGE || pt > BUTTON {
 		return "Unknown"
 	}
-	return [...]string{"PAGE", "BUTTON"}[pt]
+	return [...]string{"PAGE", "BUTTON"}[pt-1]
 }
 
 func (pt PermissionType) Original() int {
@@ -20,6 +20,10 @@ func (pt PermissionType) Original() int {
 
 func (pt PermissionType) String() string {
 	return pt.Name()
+}
+
+func PermissionTypeValues() []PermissionType {
+	return []PermissionType{PAGE, BUTTON}
 }
 
 //func Values() []PermissionType {

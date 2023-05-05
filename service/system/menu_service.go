@@ -20,17 +20,17 @@ func (MenuService) Get(c *gin.Context) {
 func (MenuService) List(c *gin.Context) {
 	var menus []*system.Menu
 	global.DB.Find(&menus)
-	result := recursiveNode(menus, 0)
+	result := recursiveMenu(menus, 0)
 	fmt.Println(result)
 	api.Success(c, result)
 }
 
-func recursiveNode(list []*system.Menu, pId uint) []*system.Menu {
+func recursiveMenu(list []*system.Menu, pId uint) []*system.Menu {
 	res := make([]*system.Menu, 0)
 
 	for _, item := range list {
 		if item.ParentId == pId {
-			item.Children = recursiveNode(list, item.ID)
+			item.Children = recursiveMenu(list, item.ID)
 			res = append(res, item)
 		}
 	}
