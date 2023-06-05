@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"learn-gin/model/api"
 	"learn-gin/model/system"
+	"learn-gin/model/system/query"
 	"strconv"
 )
 
@@ -51,4 +52,17 @@ func (UserService) GetById(c *gin.Context) {
 func (UserService) List(c *gin.Context) {
 	list := userRepository.List()
 	api.Success(c, list)
+}
+
+func (UserService) Page(c *gin.Context) {
+	var pageQuery query.UserQuery
+
+	if err := c.ShouldBindQuery(&pageQuery); err != nil {
+		panic(err)
+	}
+
+	pageQuery.SetFromLimit()
+	page := userRepository.Page(&pageQuery)
+
+	api.Success(c, page)
 }

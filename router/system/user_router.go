@@ -12,13 +12,14 @@ type UserInfo struct {
 type UserRouter struct {
 }
 
-func (router *UserRouter) Init(group *gin.RouterGroup) {
-	userRouter := group.Group("/users")
+func (UserRouter) Init(group *gin.RouterGroup) {
+	router := group.Group("/users")
 	{
-		userRouter.GET("", userService.List)
-		userRouter.GET("/:id", userService.GetById)
-		userRouter.POST("", userService.Create)
-		userRouter.PUT("", userService.Update)
-		userRouter.DELETE("", userService.Delete)
+		router.GET("", userService.List)
+		router.GET("/:id", userService.GetById)
+		router.POST("", userService.Create)
+		router.PUT("", userService.Update)
+		router.DELETE("", userService.Delete)
+		router.GET("/page", userService.Page)
 	}
 }

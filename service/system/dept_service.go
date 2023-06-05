@@ -56,3 +56,28 @@ func (DeptService) List(c *gin.Context) {
 	list := deptRepository.List()
 	api.Success(c, list)
 }
+
+func (DeptService) Page(c *gin.Context) {
+
+}
+
+func (DeptService) Tree(c *gin.Context) {
+	list := deptRepository.List()
+	tree := recursiveDept(list, 0)
+	api.Success(c, tree)
+}
+
+func recursiveDept(list []*system.Dept, pId uint) []*system.Dept {
+	res := make([]*system.Dept, 0)
+
+	for _, item := range list {
+		if item.ParentId == pId {
+			item.Children = recursiveDept(list, item.ID)
+			if len(item.Children) == 0 {
+				item.Children = nil
+			}
+			res = append(res, item)
+		}
+	}
+	return res
+}

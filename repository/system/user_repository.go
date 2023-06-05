@@ -2,7 +2,9 @@ package system
 
 import (
 	"learn-gin/global"
+	"learn-gin/model/base"
 	"learn-gin/model/system"
+	"learn-gin/model/system/query"
 )
 
 type UserRepository struct {
@@ -59,4 +61,26 @@ func (UserRepository) ListByIds(ids []uint) []*system.User {
 		panic(err)
 	}
 	return list
+}
+
+func (UserRepository) Page(query *query.UserQuery) *base.Page {
+	var list []*system.User
+
+	queryMap := make(map[string]interface{})
+
+	if query.Name != "" {
+		queryMap["name"] = query.Name
+	}
+
+	result := global.DB.Where(queryMap).Limit(int(query.Limit)).Offset(int(query.Offset)).Find(&list)
+	if result.Error != nil {
+		panic(result.Error)
+	}
+
+	return &base.Page{
+		PageNo:   query.PageNo,
+		PageSize: query.PageSize,
+		Data:     list,
+		Total:    uint(result.RowsAffected),
+	}
 }
